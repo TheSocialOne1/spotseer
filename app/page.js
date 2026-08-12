@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { STATUS_STYLES, STATUS_LEGEND } from "@/lib/statusColors";
 import { getCurrentLocation, LOCATION_ERROR_MESSAGES } from "@/lib/clientGeo";
+import NotifyButton from "./components/NotifyButton";
 
 const ParkingMap = dynamic(() => import("./components/ParkingMap"), {
   ssr: false,
@@ -220,6 +221,8 @@ export default function Home() {
             </div>
           ))}
         </div>
+
+        <NotifyButton />
       </header>
 
       <main className="mx-auto max-w-md px-4 py-5">

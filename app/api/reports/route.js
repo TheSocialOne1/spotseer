@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import crypto from "crypto";
 import { getSpots, addReport, getReports, computeStatus } from "@/lib/store";
 import { distanceMeters, MAX_REPORT_DISTANCE_METERS } from "@/lib/geo";
+import { notifySpotOpened } from "@/lib/push";
 
 const ALLOWED_TYPES = new Set(["leaving", "opened", "found", "full"]);
 
@@ -46,6 +47,14 @@ export async function POST(request) {
     await addReport(report);
   } catch {
     return NextResponse.json({ error: "server_error" }, { status: 500 });
+  }
+
+  if (report.type === "opened") {
+    try {
+      await notifySpotOpened(spot);
+    } catch {
+      // Never let a push failure break the report submission itself.
+    }
   }
 
   return NextResponse.json({

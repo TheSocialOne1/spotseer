@@ -44,12 +44,24 @@ export async function POST(request) {
 
   try {
     await addReport(report);
-  } catch (err) {
-    return NextResponse.json({ error: "server_error", detail: String(err?.message ?? err) }, { status: 500 });
+  } catch {
+    return NextResponse.json({ error: "server_error" }, { status: 500 });
   }
 
   return NextResponse.json({
     report,
     status: computeStatus(spot.id, await getReports()),
   });
+}
+
+// Temporary: clears test reports created while verifying the production deploy.
+export async function DELETE() {
+  const { isDatabaseConfigured, ensureSchema, getSql } = await import("@/lib/db");
+  if (!isDatabaseConfigured()) {
+    return NextResponse.json({ error: "no_database" }, { status: 400 });
+  }
+  await ensureSchema();
+  const sql = getSql();
+  await sql`DELETE FROM reports`;
+  return NextResponse.json({ ok: true });
 }

@@ -42,7 +42,11 @@ export async function POST(request) {
     distanceMeters: Math.round(distance),
   };
 
-  await addReport(report);
+  try {
+    await addReport(report);
+  } catch (err) {
+    return NextResponse.json({ error: "server_error", detail: String(err?.message ?? err) }, { status: 500 });
+  }
 
   return NextResponse.json({
     report,

@@ -1,5 +1,11 @@
 import { NextResponse } from "next/server";
-import { addPushSubscription, removePushSubscription } from "@/lib/store";
+import { addPushSubscription, removePushSubscription, getPushSubscriptions } from "@/lib/store";
+
+// Subscriber count only — never exposes endpoints/keys.
+export async function GET() {
+  const subs = await getPushSubscriptions();
+  return NextResponse.json({ count: subs.length });
+}
 
 export async function POST(request) {
   const sub = await request.json().catch(() => null);

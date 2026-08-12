@@ -62,3 +62,15 @@ export async function POST(request) {
     status: computeStatus(spot.id, await getReports()),
   });
 }
+
+// Temporary: clears test reports created while verifying push notifications.
+export async function DELETE() {
+  const { isDatabaseConfigured, ensureSchema, getSql } = await import("@/lib/db");
+  if (!isDatabaseConfigured()) {
+    return NextResponse.json({ error: "no_database" }, { status: 400 });
+  }
+  await ensureSchema();
+  const sql = getSql();
+  await sql`DELETE FROM reports`;
+  return NextResponse.json({ ok: true });
+}

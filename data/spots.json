@@ -1,0 +1,47 @@
+[
+  {
+    "id": "144-bonito-your-spot",
+    "name": "144 Bonito Ave",
+    "cross": "Your spot",
+    "area": "Bonito Ave",
+    "featured": true,
+    "lat": 33.767689591477456,
+    "lng": -118.18049088120462
+  },
+  {
+    "id": "bonito-1-door-south",
+    "name": "Bonito Ave",
+    "cross": "~1 door south of 144",
+    "area": "Bonito Ave",
+    "featured": false,
+    "lat": 33.767419,
+    "lng": -118.180594
+  },
+  {
+    "id": "bonito-2-doors-south",
+    "name": "Bonito Ave",
+    "cross": "~2 doors south of 144",
+    "area": "Bonito Ave",
+    "featured": false,
+    "lat": 33.76712,
+    "lng": -118.180663
+  },
+  {
+    "id": "bonito-1-door-north",
+    "name": "Bonito Ave",
+    "cross": "~1 door north of 144",
+    "area": "Bonito Ave",
+    "featured": false,
+    "lat": 33.768015,
+    "lng": -118.180458
+  },
+  {
+    "id": "bonito-2-doors-north",
+    "name": "Bonito Ave",
+    "cross": "~2 doors north of 144",
+    "area": "Bonito Ave",
+    "featured": false,
+    "lat": 33.768314,
+    "lng": -118.180389
+  }
+]

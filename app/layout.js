@@ -13,26 +13,25 @@ const geistMono = Geist_Mono({
 
 export const metadata = {
   title: "SpotSeer",
-  description: "Live, location-verified street parking reports for Bonito Ave, Long Beach",
+  description: "Live street parking reports from drivers on the block — Alamitos Beach, Long Beach pilot.",
   manifest: "/manifest.json",
   appleWebApp: {
     capable: true,
-    statusBarStyle: "default",
+    statusBarStyle: "black-translucent",
     title: "SpotSeer",
   },
 };
 
 export const viewport = {
-  themeColor: "#0ea5e9",
+  themeColor: "#0b0f14",
+  colorScheme: "dark",
+  viewportFit: "cover",
 };
 
 export default function RootLayout({ children }) {
   return (
-    <html
-      lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col">{children}</body>
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}>
+      <body className="min-h-full">{children}</body>
     </html>
   );
 }

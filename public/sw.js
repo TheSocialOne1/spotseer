@@ -12,6 +12,9 @@ self.addEventListener("push", (event) => {
       body: data.body || "",
       icon: "/icon-192.png",
       badge: "/icon-192.png",
+      // One alert slot: a newer opening replaces an older one instead of stacking.
+      tag: data.tag,
+      renotify: Boolean(data.tag),
       data: { url: data.url || "/" },
     })
   );
@@ -24,6 +27,7 @@ self.addEventListener("notificationclick", (event) => {
     clients.matchAll({ type: "window", includeUncontrolled: true }).then((clientList) => {
       for (const client of clientList) {
         if (client.url.includes(self.location.origin) && "focus" in client) {
+          if ("navigate" in client) client.navigate(url);
           return client.focus();
         }
       }

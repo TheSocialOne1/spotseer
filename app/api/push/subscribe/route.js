@@ -1,29 +1,23 @@
-import { NextResponse } from "next/server";
-import { addPushSubscription, removePushSubscription, getPushSubscriptions } from "@/lib/store";
-
-// Subscriber count only — never exposes endpoints/keys.
-export async function GET() {
-  const subs = await getPushSubscriptions();
-  return NextResponse.json({ count: subs.length });
-}
+import { removePushSubscription, savePushSubscription } from "@/lib/network";
+import { badDevice, readBody, respond } from "@/lib/request";
 
 export async function POST(request) {
-  const sub = await request.json().catch(() => null);
+  const body = await readBody(request);
+  const invalid = badDevice(body.deviceId);
+  if (invalid) return invalid;
 
-  if (!sub || typeof sub.endpoint !== "string" || !sub.keys?.p256dh || !sub.keys?.auth) {
-    return NextResponse.json({ error: "Invalid subscription" }, { status: 400 });
+  const sub = body.subscription;
+  if (typeof sub?.endpoint !== "string" || !sub.keys?.p256dh || !sub.keys?.auth) {
+    return respond({ error: "invalid_subscription", status: 400 });
   }
 
-  await addPushSubscription(sub);
-  return NextResponse.json({ ok: true });
+  await savePushSubscription({ deviceId: body.deviceId, subscription: sub });
+  return respond({ ok: true });
 }
 
 export async function DELETE(request) {
-  const body = await request.json().catch(() => null);
-  if (!body?.endpoint) {
-    return NextResponse.json({ error: "Invalid request" }, { status: 400 });
-  }
-
+  const body = await readBody(request);
+  if (typeof body.endpoint !== "string") return respond({ error: "invalid_request", status: 400 });
   await removePushSubscription(body.endpoint);
-  return NextResponse.json({ ok: true });
+  return respond({ ok: true });
 }
